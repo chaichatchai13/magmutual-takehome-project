@@ -1,8 +1,8 @@
-# MagMutual User Management System
+# MagMutual TakeHome Project
 
 This repository is a user management system that integrates with a Spring Boot backend and a React frontend. It provides functionalities for user authentication, user CRUD operations, and CSV file uploads.
 
-![AppScreenshot.png](AppScreenshot.png)
+![Application.png](Application.png)
 
 ## Requirements
 
@@ -59,6 +59,7 @@ Access the Swagger UI for API documentation at:
 ```bash
 http://localhost:8080/swagger-ui.html
 ```
+![Swagger-UI.png](Swagger-UI.png)
 
 ### Unit Tests
 ```bash
