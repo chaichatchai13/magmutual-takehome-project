@@ -36,7 +36,6 @@ mvn spring-boot:run
 ### Frontend (React)
 Navigate to the Frontend Directory
 ```bash
-mvn clean install
 cd frontend
 ```
 
@@ -47,12 +46,24 @@ npm install
 
 ## Start the Frontend app
 ```bash
-npm start
+npm run dev
 ```
 
 ### Running the Application
 The backend will be running at http://localhost:8080. 
 The frontend will be running at http://localhost:5173.
+
+### How to load user data from a CSV file to PostgreSQL database
+
+1. Open your browser and navigate to [http://localhost:5173/](http://localhost:5173/)
+2. For admin role login (for local testing purposes only), enter:
+    - Username: `admin`
+    - Password: `adminpassword`
+3. Navigate to the Admin Panel tab: [http://localhost:5173/admin](http://localhost:5173/admin)
+4. Choose a CSV file that you want to upload.
+5. Click on the upload button.
+![AdminPanel.png](AdminPanel.png)
+
 
 ### API Documentation
 Access the Swagger UI for API documentation at:
