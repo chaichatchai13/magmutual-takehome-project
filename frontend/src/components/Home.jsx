@@ -1,4 +1,3 @@
-// src/components/Home.jsx
 import React, { useContext, useState, useEffect } from 'react';
 import { Container, Box, TextField, Typography } from '@mui/material';
 import axiosInstance from '../axios/axiosInstance';
@@ -11,7 +10,7 @@ const Home = () => {
     const [filters, setFilters] = useState({ startDate: '', endDate: '', profession: '' });
     const [pagination, setPagination] = useState({ offset: 0, limit: 10, total: 0 });
     const [searchId, setSearchId] = useState('');
-
+    const  apiUrl = import.meta.env.VITE_APP_API_URL;
     useEffect(() => {
         if (searchId) {
             handleSearchById(searchId);
@@ -37,7 +36,7 @@ const Home = () => {
         }
 
         try {
-            const response = await axiosInstance.get('http://localhost:8080/api/users', {
+            const response = await axiosInstance.get(`${apiUrl}/api/users`, {
                 params,
                 headers: {
                     Authorization: `Bearer ${auth.token}`,
@@ -77,7 +76,7 @@ const Home = () => {
         if (id.trim() === '') return;
 
         try {
-            const response = await axiosInstance.get(`http://localhost:8080/api/users/${id}`, {
+            const response = await axiosInstance.get(`${apiUrl}/api/users/${id}`, {
                 headers: {
                     Authorization: `Bearer ${auth.token}`,
                 },
@@ -95,7 +94,7 @@ const Home = () => {
         <Container>
             <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Typography variant="h4" component="h1" gutterBottom>
-                    User Management
+                    MagMutual User Portal
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, marginBottom: 4 }}>
                     <TextField
@@ -133,6 +132,7 @@ const Home = () => {
                     pagination={pagination}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}
+                    fetchUsers={fetchUsers}
                 />
             </Box>
         </Container>

@@ -9,11 +9,11 @@ const SignIn = () => {
     const [password, setPassword] = useState('');
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
-
+    const apiUrl = import.meta.env.VITE_APP_API_URL;
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axiosInstance.post('http://localhost:8080/api/auth/authenticate', { username, password });
+            const response = await axiosInstance.post(`${apiUrl}/api/auth/authenticate`, { username, password });
             const csrfToken = response.headers['xsrf-token'];
             console.log("csrfToken : " + csrfToken);
             if (csrfToken) {
@@ -36,8 +36,8 @@ const SignIn = () => {
                     alignItems: 'center',
                 }}
             >
-                <Typography component="h1" variant="h5">
-                    Sign in
+                <Typography variant="h4" component="h1" gutterBottom>
+                    MagMutual User Portal
                 </Typography>
                 <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
                     <TextField

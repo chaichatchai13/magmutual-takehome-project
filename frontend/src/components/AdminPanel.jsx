@@ -1,11 +1,9 @@
-// src/components/AdminPanel.jsx
 import React, { useContext, useState } from 'react';
 import axiosInstance from '../axios/axiosInstance';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Container, Box, Typography, Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { getCsrfToken } from '../utils/csrf';
-
 const AdminPanel = () => {
     const { auth } = useContext(AuthContext);
     const [file, setFile] = useState(null);
@@ -30,8 +28,8 @@ const AdminPanel = () => {
 
         try {
             const csrfToken = getCsrfToken();
-            console.log(csrfToken);
-            const response = await axiosInstance.post('http://localhost:8080/api/users/upload', formData, {
+            const apiUrl = import.meta.env.VITE_APP_API_URL;
+            const response = await axiosInstance.post(`${apiUrl}/api/users/upload`, formData, {
                 headers: {
                     Authorization: `Bearer ${auth.token}`,
                     'Content-Type': 'multipart/form-data',

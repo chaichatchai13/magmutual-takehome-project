@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate  } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes, Navigate, useLocation} from 'react-router-dom';
 import {CssBaseline, Box } from '@mui/material';
 import SignIn from './components/SignIn';
 import Home from './components/Home';
@@ -11,10 +11,11 @@ import NavigationDrawer from './components/NavigationDrawer';
 
 const AppContent = () => {
     const { isAuthenticated } = useContext(AuthContext);
-
+    const location = useLocation();
+    const isLogInRoute = location.pathname === '/login';
     return (
-        <Box sx={{ display: 'flex' }}>
-            {isAuthenticated && <NavigationDrawer />}
+        <Box sx={{ display: 'flex' , position: 'relative', height: '100vh' }}>
+            {!isLogInRoute && isAuthenticated && <NavigationDrawer />}
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <Routes>
                     <Route path="/login" element={<SignIn />} />
