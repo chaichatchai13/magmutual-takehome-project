@@ -61,7 +61,7 @@ public class UserService {
         Optional<Users> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
             Users user = userOptional.get();
-            setUserProperties(user, convertUserRequestToMap(userRequest));
+            mapUserRequestToUser(user, userRequest);
             logger.debug("Updating user with id: {}", id);
             return userRepository.save(user);
         } else {
@@ -123,7 +123,7 @@ public class UserService {
      */
     public Users addUser(UserRequest userRequest) {
         Users user = new Users();
-        setUserProperties(user, convertUserRequestToMap(userRequest));
+        mapUserRequestToUser(user, userRequest);
         logger.debug("Adding new user with id: {}", user.getId());
         return userRepository.save(user);
     }
@@ -140,7 +140,7 @@ public class UserService {
 
             for (CSVRecord csvRecord : csvParser) {
                 Users user = new Users();
-                setUserProperties(user, convertCSVRecordToMap(csvRecord));
+                mapCsvRecordToUser(user, csvRecord);
                 userRepository.save(user);
             }
             logger.debug("Successfully parsed and saved users from CSV file");
@@ -152,59 +152,36 @@ public class UserService {
     }
 
     /**
-     * Sets the properties of a Users entity from a map of properties.
-     *
-     * @param user the Users entity
-     * @param properties the map of properties
-     * @return the Users entity with properties set
-     */
-    private Users setUserProperties(Users user, Map<String, String> properties) {
-        user.setId(properties.get(UserField.ID.getFieldName()) != null ? Long.parseLong(properties.get(UserField.ID.getFieldName())) : null);
-        user.setFirstname(properties.get(UserField.FIRSTNAME.getFieldName()));
-        user.setLastname(properties.get(UserField.LASTNAME.getFieldName()));
-        user.setEmail(properties.get(UserField.EMAIL.getFieldName()));
-        user.setProfession(properties.get(UserField.PROFESSION.getFieldName()));
-        user.setDateCreated(properties.get(UserField.DATE_CREATED.getFieldName()) != null ? DateUtil.convertStringToDate(properties.get(UserField.DATE_CREATED.getFieldName())) : null);
-        user.setCountry(properties.get(UserField.COUNTRY.getFieldName()));
-        user.setCity(properties.get(UserField.CITY.getFieldName()));
-        return user;
-    }
-
-    /**
-     * Converts a UserRequest object to a map of properties.
+     * Maps a UserRequest object to a Users entity.
      *
      * @param userRequest the UserRequest object
-     * @return a map of properties
+     * @param user the Users entity
      */
-    private Map<String, String> convertUserRequestToMap(UserRequest userRequest) {
-        Map<String, String> properties = new HashMap<>();
-        properties.put(UserField.ID.getFieldName(), String.valueOf(userRequest.getId()));
-        properties.put(UserField.FIRSTNAME.getFieldName(), userRequest.getFirstname());
-        properties.put(UserField.LASTNAME.getFieldName(), userRequest.getLastname());
-        properties.put(UserField.EMAIL.getFieldName(), userRequest.getEmail());
-        properties.put(UserField.PROFESSION.getFieldName(), userRequest.getProfession());
-        properties.put(UserField.DATE_CREATED.getFieldName(), userRequest.getDateCreated());
-        properties.put(UserField.COUNTRY.getFieldName(), userRequest.getCountry());
-        properties.put(UserField.CITY.getFieldName(), userRequest.getCity());
-        return properties;
+    private void mapUserRequestToUser(Users user, UserRequest userRequest) {
+        user.setId(userRequest.getId());
+        user.setFirstname(userRequest.getFirstname());
+        user.setLastname(userRequest.getLastname());
+        user.setEmail(userRequest.getEmail());
+        user.setProfession(userRequest.getProfession());
+        user.setDateCreated(userRequest.getDateCreated() != null ? DateUtil.convertStringToDate(userRequest.getDateCreated()) : null);
+        user.setCountry(userRequest.getCountry());
+        user.setCity(userRequest.getCity());
     }
 
     /**
-     * Converts a CSVRecord object to a map of properties.
+     * Maps a CSVRecord object to a Users entity.
      *
      * @param csvRecord the CSVRecord object
-     * @return a map of properties
+     * @param user the Users entity
      */
-    private Map<String, String> convertCSVRecordToMap(CSVRecord csvRecord) {
-        Map<String, String> properties = new HashMap<>();
-        properties.put(UserField.ID.getFieldName(), csvRecord.get(UserField.ID.getFieldName()));
-        properties.put(UserField.FIRSTNAME.getFieldName(), csvRecord.get(UserField.FIRSTNAME.getFieldName()));
-        properties.put(UserField.LASTNAME.getFieldName(), csvRecord.get(UserField.LASTNAME.getFieldName()));
-        properties.put(UserField.EMAIL.getFieldName(), csvRecord.get(UserField.EMAIL.getFieldName()));
-        properties.put(UserField.PROFESSION.getFieldName(), csvRecord.get(UserField.PROFESSION.getFieldName()));
-        properties.put(UserField.DATE_CREATED.getFieldName(), csvRecord.get(UserField.DATE_CREATED.getFieldName()));
-        properties.put(UserField.COUNTRY.getFieldName(), csvRecord.get(UserField.COUNTRY.getFieldName()));
-        properties.put(UserField.CITY.getFieldName(), csvRecord.get(UserField.CITY.getFieldName()));
-        return properties;
+    private void mapCsvRecordToUser(Users user, CSVRecord csvRecord) {
+        user.setId(Long.parseLong(csvRecord.get(UserField.ID.getFieldName())));
+        user.setFirstname(csvRecord.get(UserField.FIRSTNAME.getFieldName()));
+        user.setLastname(csvRecord.get(UserField.LASTNAME.getFieldName()));
+        user.setEmail(csvRecord.get(UserField.EMAIL.getFieldName()));
+        user.setProfession(csvRecord.get(UserField.PROFESSION.getFieldName()));
+        user.setDateCreated(DateUtil.convertStringToDate(csvRecord.get(UserField.DATE_CREATED.getFieldName())));
+        user.setCountry(csvRecord.get(UserField.COUNTRY.getFieldName()));
+        user.setCity(csvRecord.get(UserField.CITY.getFieldName()));
     }
 }
