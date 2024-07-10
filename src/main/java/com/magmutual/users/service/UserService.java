@@ -122,6 +122,10 @@ public class UserService {
      * @return the added user
      */
     public Users addUser(UserRequest userRequest) {
+        if (userRepository.existsById(String.valueOf(userRequest.getId()))) {
+            logger.error("User with id {} already exists", userRequest.getId());
+            throw new CustomException("User already exists with id: " + userRequest.getId(), "Conflict", HttpStatus.CONFLICT);
+        }
         Users user = new Users();
         mapUserRequestToUser(user, userRequest);
         logger.debug("Adding new user with id: {}", user.getId());

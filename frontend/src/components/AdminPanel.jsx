@@ -2,16 +2,18 @@ import React, { useContext, useState } from 'react';
 import axiosInstance from '../axios/axiosInstance';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Container, Box, Typography, Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Container, Box, Typography, Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Alert } from '@mui/material';
 import { getCsrfToken } from '../utils/csrf';
 const AdminPanel = () => {
     const { auth } = useContext(AuthContext);
     const [file, setFile] = useState(null);
     const [open, setOpen] = useState(false);
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
+        setError(''); // Clear previous error message
     };
 
     const handleClickOpen = () => {
@@ -42,6 +44,7 @@ const AdminPanel = () => {
             }
         } catch (error) {
             console.error('File upload failed:', error);
+            setError('File upload failed. Please try again.');
         }
         setOpen(false);
     };
@@ -52,6 +55,7 @@ const AdminPanel = () => {
                 <Typography variant="h4" component="h1" gutterBottom>
                     Admin Panel
                 </Typography>
+                {error && <Alert severity="error">{error}</Alert>}
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
                     <Typography variant="h6">Upload CSV:</Typography>
                     <TextField type="file" onChange={handleFileChange} />

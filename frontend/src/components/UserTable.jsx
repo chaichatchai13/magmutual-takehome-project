@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import {
     Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination,
-    Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, DialogContentText
+    Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, DialogContentText, Alert
 } from '@mui/material';
 import { AuthContext } from '../context/AuthContext';
 import axiosInstance from '../axios/axiosInstance';
@@ -15,11 +15,13 @@ const UserTable = ({ users, pagination, onPageChange, onRowsPerPageChange, fetch
     const [openDeleteDialog, setDeleteEditDialog] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const apiUrl = import.meta.env.VITE_APP_API_URL;
+    const [error, setError] = useState('');
 
     const handleAddClick = () => {
         setEditUser(null);
         setIsEditMode(false);
         setOpenAddEditDialog(true);
+        setError('');
     };
 
     const handleEditClick = (user) => {
@@ -90,6 +92,7 @@ const UserTable = ({ users, pagination, onPageChange, onRowsPerPageChange, fetch
             fetchUsers();
             handleAddEditDialogClose();
         } catch (error) {
+            setError(`Save failed: ${error}`);
             console.error('Save failed:', error);
         }
     };
@@ -105,6 +108,7 @@ const UserTable = ({ users, pagination, onPageChange, onRowsPerPageChange, fetch
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setEditUser({ ...editUser, [name]: value });
+        setError('');
     };
 
     const todayDate = new Date().toISOString().split('T')[0];
@@ -271,6 +275,7 @@ const UserTable = ({ users, pagination, onPageChange, onRowsPerPageChange, fetch
                         onChange={handleInputChange}
                     />
                 </DialogContent>
+                {error && <Alert severity="error">{error}</Alert>}
                 <DialogActions>
                     <Button onClick={handleAddEditDialogClose} color="primary">
                         Cancel
