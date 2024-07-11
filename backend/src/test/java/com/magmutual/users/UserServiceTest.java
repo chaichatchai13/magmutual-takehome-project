@@ -47,7 +47,7 @@ class UserServiceTest {
         user.setCity("New York");
 
         userRequest = new UserRequest();
-        userRequest.setId(123);
+        userRequest.setId(123L);
         userRequest.setFirstname("John");
         userRequest.setLastname("Doe");
         userRequest.setEmail("john.doe@example.com");

@@ -53,6 +53,14 @@ npm run dev
 The backend will be running at http://localhost:8080. 
 The frontend will be running at http://localhost:5173.
 
+
+### Start Docker Local Deployment
+```bash
+docker-compose up
+```
+
+
+
 ### How to load user data from a CSV file to PostgreSQL database
 
 1. Open your browser and navigate to [http://localhost:5173/](http://localhost:5173/)
