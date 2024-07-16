@@ -51,7 +51,7 @@ npm run dev
 
 ### Running the Application
 The backend will be running at http://localhost:8080. 
-The frontend will be running at http://localhost:5173.
+The frontend will be running at http://localhost:3000.
 
 
 ### Start Docker Local Deployment
@@ -63,11 +63,11 @@ docker-compose up
 
 ### How to load user data from a CSV file to PostgreSQL database
 
-1. Open your browser and navigate to [http://localhost:5173/](http://localhost:5173/)
+1. Open your browser and navigate to [http://localhost:3000/](http://localhost:3000/)
 2. For admin role login (for local testing purposes only), enter:
     - Username: `admin`
     - Password: `adminpassword`
-3. Navigate to the Admin Panel tab: [http://localhost:5173/admin](http://localhost:5173/admin)
+3. Navigate to the Admin Panel tab: [http://localhost:3000/admin](http://localhost:3000/admin)
 4. Choose a CSV file that you want to upload.
 5. Click on the upload button.
 ![AdminPanel.png](AdminPanel.png)
